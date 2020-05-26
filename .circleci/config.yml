@@ -1,0 +1,24 @@
+version: 2.0
+
+jobs:
+  sticker:
+    docker:
+      - image: z4nyx/docker:latest
+    steps:
+      - run: wget https://github.com/z4nyx/scripts/raw/master/lavender/sticker
+      - run: bash sticker
+
+  compile:
+    docker:
+      - image: z4nyx/docker:latest
+    steps:
+      - run: git clone --depth=1 https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME} -b ${CIRCLE_BRANCH} .
+      - run: wget https://github.com/z4nyx/scripts/raw/master/lavender/compile
+      - run: bash compile
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - sticker
+      - compile
